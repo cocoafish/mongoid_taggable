@@ -18,6 +18,11 @@ module Mongoid::Taggable
     base.field :tags_array, :type => Array, :default => []
     base.index [['tags_array', Mongo::ASCENDING]]
 
+    base.before_save do |document|
+        # dedup tags, case insensitive
+        document.tags_array = document.tags_array.inject([]) { |result,h| result << h unless result.map{|i| i.downcase}.include?(h.downcase); result }
+    end
+
     # add callback to save tags index
     base.after_save do |document|
       document.class.save_tags_index!
