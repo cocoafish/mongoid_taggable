@@ -33,7 +33,7 @@ module Mongoid::Taggable
     base.send :include, InstanceMethods
 
     # enable indexing as default
-    base.enable_tags_index!
+    #base.enable_tags_index!
   end
 
   module ClassMethods
