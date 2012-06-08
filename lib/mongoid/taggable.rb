@@ -16,7 +16,7 @@ module Mongoid::Taggable
   def self.included(base)
     # create fields for tags and index it
     base.field :tags_array, :type => Array, :default => []
-    base.index [['tags_array', Mongo::ASCENDING]]
+    base.index [[:app_id, Mongo::ASCENDING], [:tags_array, Mongo::ASCENDING]]
 
     base.before_save do |document|
         # dedup tags, case insensitive
