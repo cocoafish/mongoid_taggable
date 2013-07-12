@@ -20,7 +20,9 @@ module Mongoid::Taggable
 
     base.before_save do |document|
         # dedup tags, case insensitive
-        document.tags_array = document.tags_array.inject([]) { |result,h| result << h unless result.map{|i| i.downcase}.include?(h.downcase); result }
+	if document.tags_array_changed?
+        	document.tags_array = document.tags_array.inject([]) { |result,h| result << h unless result.map{|i| i.downcase}.include?(h.downcase); result }
+	end
     end
 
     # add callback to save tags index
